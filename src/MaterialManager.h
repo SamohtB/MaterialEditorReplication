@@ -1,7 +1,6 @@
 #pragma once
 #include "pch.h"
 #include "FrameConstants.h"
-
 #include "DynamicConstantBufferPool.h"
 #include "MaterialTypes.h"
 #include "Material.h"
@@ -18,6 +17,7 @@ public:
     void LoadInitialMaterials();
     void CreateBlankMaterial(const String& materialName);
     void CreateMaterial(const String& materialName, MaterialDescription materialDesc);
+    void UpdateMaterial(const String& materialName, MaterialDescription materialDesc);
 
     void BeginFrame(UINT currentFrameIndex);
     D3D12_GPU_VIRTUAL_ADDRESS GetMaterialHandle(const String& materialName, UINT currentFrameIndex);

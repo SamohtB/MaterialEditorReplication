@@ -9,14 +9,11 @@ public:
     Inspector();
     ~Inspector() = default;
 
-    // Inherited via AUIScreen
     void DrawUI() override;
 
 private:
-	void DrawObjectInfo(AGameObject* object);
+    void DrawObjectInfo(AGameObject* object);
     void DrawTransformTab(AGameObject* object);
     void DrawMaterialTab(AGameObject* object);
-    void DrawTextureField(const char* label, std::string& textureName);
-
+    bool DrawTextureField(const char* label, std::string& textureName);
 };
-

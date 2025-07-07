@@ -3,13 +3,13 @@
 #include "TextureTypes.h"
 #include "Math.h"
 
-class MaterialType
+// Changed from a class to a namespace
+namespace MaterialType
 {
-public:
-    inline static constexpr const char* DEFAULT = "DEFAULT";
-    inline static constexpr const char* ROCK = "ROCK";
-    inline static constexpr const char* METAL_PLATE = "METAL_PLATE";
-    inline static constexpr const char* BRICKS = "BRICKS";
+    inline constexpr const char* DEFAULT = "DEFAULT";
+    inline constexpr const char* ROCK = "ROCK";
+    inline constexpr const char* METAL_PLATE = "METAL_PLATE";
+    inline constexpr const char* BRICKS = "BRICKS";
 };
 
 enum MaterialMapType : int
@@ -97,4 +97,3 @@ struct MaterialDescription
     {
     }
 };
-
