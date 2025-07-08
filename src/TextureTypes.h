@@ -22,6 +22,9 @@ public:
     inline static constexpr const char* BRICKS_ROUGH = "BRICKS_ROUGH";
     inline static constexpr const char* BRICKS_AO = "BRICKS_AO";
 
+    inline static constexpr const char* LOGO = "LOGO";
+
+
     static const std::vector<const char*>& GetAllTextures()
     {
         static const std::vector<const char*> textures = {

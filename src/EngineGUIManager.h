@@ -8,6 +8,7 @@ public:
     const std::string HIERARCHY = "HIERARCHY";
     const std::string INSPECTOR = "INSPECTOR";
     const String CREDITS = "CREDITS";
+    const String COLOR_PICKER = "COLOR_PICKER";
 };
 
 class AUIScreen;
@@ -15,7 +16,6 @@ class AUIScreen;
 class EngineGUIManager
 {
 public:
-    using String = std::string;
 	using UIPtr = std::shared_ptr<AUIScreen>;
     using UIList = std::vector<UIPtr>;
     using UITable = std::unordered_map<String, UIPtr>;
@@ -26,6 +26,8 @@ public:
 
     void DrawAllUI();
     std::vector<AUIScreen*> GetAllScreens();
+
+    AUIScreen* GetUI(String uiName);
 
     EngineGUIManager(HWND hwnd);
     ~EngineGUIManager();

@@ -11,6 +11,7 @@
 #include "Toolbar.h"
 #include "Inspector.h"
 #include "Credits.h"
+#include "ColorPicker.h"
 
 std::unique_ptr<EngineGUIManager> EngineGUIManager::sharedInstance = nullptr;
 
@@ -60,6 +61,11 @@ std::vector<AUIScreen*> EngineGUIManager::GetAllScreens()
 	return allScreens;
 }
 
+AUIScreen* EngineGUIManager::GetUI(String uiName)
+{
+	return this->m_uiTable[uiName].get();
+}
+
 EngineGUIManager::EngineGUIManager(HWND hwnd)
 {
 	// Setup Dear ImGui context
@@ -101,6 +107,8 @@ EngineGUIManager::EngineGUIManager(HWND hwnd)
 			heapManager->FreeSRVSlot(index);
 		};
 
+	ImGui::GetIO().FontGlobalScale = 1.15f;
+
 	ImGui_ImplDX12_Init(&init_info);
 	ImGui_ImplWin32_Init(hwnd);
 
@@ -127,6 +135,10 @@ void EngineGUIManager::PopulateGUI()
 	auto credits = std::make_shared<Credits>();
 	this->m_uiTable[uiNames.CREDITS] = credits;
 	this->m_uiList.push_back(credits);
+
+	auto picker = std::make_shared<ColorPicker>();
+	this->m_uiTable[uiNames.COLOR_PICKER] = picker;
+	this->m_uiList.push_back(picker);
 }
 
 EngineGUIManager::~EngineGUIManager()

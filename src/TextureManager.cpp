@@ -27,6 +27,8 @@ void TextureManager::LoadInitialTextures()
     LoadTexture(TextureType::BRICKS_NORMAL, L"Assets/Textures/bricks_n.jpg");
     LoadTexture(TextureType::BRICKS_ROUGH, L"Assets/Textures/bricks_r.jpg");
     LoadTexture(TextureType::BRICKS_AO, L"Assets/Textures/bricks_ao.jpg");
+
+    LoadTexture(TextureType::LOGO, L"Assets/Textures/LOGO.png");
     
 }
 

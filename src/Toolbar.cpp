@@ -39,6 +39,8 @@ void Toolbar::GameObjects()
 
 void Toolbar::FileMenu()
 {
+
+
     /* File Menus*/
     if (ImGui::BeginMenu("File"))
     {
@@ -50,6 +52,13 @@ void Toolbar::FileMenu()
         if (ImGui::MenuItem("Close"))
         {
             Win32App::Quit();
+        }
+
+        if (ImGui::MenuItem("About"))
+        {
+            auto ui = EngineGUIManager::GetInstance()->GetUI("CREDITS");
+            bool visibility = ui->IsVisible();
+            ui->SetVisible(!visibility);
         }
 
         ImGui::EndMenu();
