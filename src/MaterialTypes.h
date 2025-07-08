@@ -3,13 +3,25 @@
 #include "TextureTypes.h"
 #include "Math.h"
 
-// Changed from a class to a namespace
-namespace MaterialType
+
+class MaterialType
 {
-    inline constexpr const char* DEFAULT = "DEFAULT";
-    inline constexpr const char* ROCK = "ROCK";
-    inline constexpr const char* METAL_PLATE = "METAL_PLATE";
-    inline constexpr const char* BRICKS = "BRICKS";
+public:
+    inline static constexpr const char* DEFAULT = "DEFAULT";
+    inline static constexpr const char* ROCK = "ROCK";
+    inline static constexpr const char* METAL_PLATE = "METAL_PLATE";
+    inline static constexpr const char* BRICKS = "BRICKS";
+    inline static constexpr const char* BLANK_1 = "BLANK_1";
+    inline static constexpr const char* BLANK_2 = "BLANK_2";
+    inline static constexpr const char* BLANK_3 = "BLANK_3";
+
+    static const std::vector<const char*>& GetAllMaterials()
+    {
+        static const std::vector<const char*> materials = {
+            ROCK, BRICKS, METAL_PLATE, BLANK_1, BLANK_2, BLANK_3, DEFAULT
+        };
+        return materials;
+    }
 };
 
 enum MaterialMapType : int

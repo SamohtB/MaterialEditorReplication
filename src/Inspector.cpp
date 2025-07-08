@@ -80,24 +80,22 @@ void Inspector::DrawMaterialTab(AGameObject* object)
     auto meshObject = dynamic_cast<AMeshObject*>(object);
     if (!meshObject) return;
 
-    static const char* materialOptions[] = {
-        MaterialType::DEFAULT, MaterialType::ROCK, MaterialType::METAL_PLATE, MaterialType::BRICKS
-    };
+    const std::vector<const char*>& materialList = MaterialType::GetAllMaterials();
 
     std::string currentMat = meshObject->GetMaterial();
     int currentIndex = 0;
-    for (int i = 0; i < IM_ARRAYSIZE(materialOptions); ++i)
+    for (int i = 0; i < materialList.size(); ++i)
     {
-        if (currentMat == materialOptions[i])
+        if (currentMat == materialList[i])
         {
             currentIndex = i;
             break;
         }
     }
 
-    if (ImGui::Combo("Material", &currentIndex, materialOptions, IM_ARRAYSIZE(materialOptions)))
+    if (ImGui::Combo("Material", &currentIndex, materialList.data(), materialList.size()))
     {
-        meshObject->SetMaterial(materialOptions[currentIndex]);
+        meshObject->SetMaterial(materialList[currentIndex]);
         return;
     }
 

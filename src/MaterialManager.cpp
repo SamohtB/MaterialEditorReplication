@@ -46,6 +46,10 @@ void MaterialManager::LoadInitialMaterials()
         TextureType::DEFAULT,       0.0f,
         TextureType::DEFAULT,       0.0f
         });
+
+    CreateBlankMaterial(MaterialType::BLANK_1);
+    CreateBlankMaterial(MaterialType::BLANK_2);
+    CreateBlankMaterial(MaterialType::BLANK_3);
 }
 
 void MaterialManager::CreateBlankMaterial(const String& materialName)

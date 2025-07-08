@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Credits.cpp" />
     <ClCompile Include="src\ABaseWindow.cpp" />
     <ClCompile Include="src\AGameObject.cpp" />
     <ClCompile Include="src\AMeshObject.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="src\Win32App.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Credits.h" />
     <ClInclude Include="src\ABaseWindow.h" />
     <ClInclude Include="src\AGameObject.h" />
     <ClInclude Include="src\AMeshObject.h" />

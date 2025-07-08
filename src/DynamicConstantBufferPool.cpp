@@ -27,7 +27,7 @@ DynamicConstantBufferPool::~DynamicConstantBufferPool()
 void DynamicConstantBufferPool::BeginFrame(uint32_t frameIndex)
 {
     m_currentFrameIndex = frameIndex;
-    m_currentOffsets[frameIndex] = 0;
+    //m_currentOffsets[frameIndex] = 0;
 }
 
 void DynamicConstantBufferPool::SetCurrentFrameIndex(UINT frameIndex)

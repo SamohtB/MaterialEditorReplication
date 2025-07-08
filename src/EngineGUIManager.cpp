@@ -10,6 +10,7 @@
 #include "Hierarchy.h"
 #include "Toolbar.h"
 #include "Inspector.h"
+#include "Credits.h"
 
 std::unique_ptr<EngineGUIManager> EngineGUIManager::sharedInstance = nullptr;
 
@@ -122,6 +123,10 @@ void EngineGUIManager::PopulateGUI()
 	auto inspector = std::make_shared<Inspector>();
 	this->m_uiTable[uiNames.INSPECTOR] = inspector;
 	this->m_uiList.push_back(inspector);
+
+	auto credits = std::make_shared<Credits>();
+	this->m_uiTable[uiNames.CREDITS] = credits;
+	this->m_uiList.push_back(credits);
 }
 
 EngineGUIManager::~EngineGUIManager()
