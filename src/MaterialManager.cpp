@@ -13,6 +13,7 @@ void MaterialManager::LoadInitialMaterials()
 {
     CreateBlankMaterial(MaterialType::DEFAULT);
 
+    /* MaterialDesc Sequence: Albedo, Normal, Metal, Rough, AO, Emmissive, Height */
     CreateMaterial(MaterialType::ROCK,
         {
         TextureType::ROCK_COLOR,    Vector4(1, 1, 1, 1),
@@ -21,7 +22,7 @@ void MaterialManager::LoadInitialMaterials()
         TextureType::ROCK_ROUGH,    1.0f,
         TextureType::ROCK_AO,       1.0f,
         TextureType::DEFAULT,       0.0f,
-        TextureType::DEFAULT,       0.0f
+        TextureType::ROCK_HEIGHT,   0.7f
         });
 
     CreateMaterial(MaterialType::METAL_PLATE,

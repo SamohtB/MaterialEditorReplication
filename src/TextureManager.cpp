@@ -12,10 +12,11 @@ void TextureManager::LoadInitialTextures()
     LoadTexture(TextureType::DEFAULT, L"Assets/Textures/default.png");
     //CreateDefaultWhiteTexture();
 
-    LoadTexture(TextureType::ROCK_COLOR, L"Assets/Textures/rock_d.jpg");
-    LoadTexture(TextureType::ROCK_NORMAL, L"Assets/Textures/rock_n.jpg");
-    LoadTexture(TextureType::ROCK_ROUGH, L"Assets/Textures/rock_r.jpg");
-    LoadTexture(TextureType::ROCK_AO, L"Assets/Textures/rock_ao.jpg");
+    LoadTexture(TextureType::ROCK_COLOR, L"Assets/Textures/rock_d.png");
+    LoadTexture(TextureType::ROCK_NORMAL, L"Assets/Textures/rock_n.png");
+    LoadTexture(TextureType::ROCK_ROUGH, L"Assets/Textures/rock_r.png");
+    LoadTexture(TextureType::ROCK_AO, L"Assets/Textures/rock_ao.png");
+    LoadTexture(TextureType::ROCK_HEIGHT, L"Assets/Textures/rock_h.png");
 
     LoadTexture(TextureType::METAL_COLOR, L"Assets/Textures/metal_plate_d.jpg");
     LoadTexture(TextureType::METAL_NORMAL, L"Assets/Textures/metal_plate_n.jpg");
