@@ -9,14 +9,8 @@ struct PSINPUT
     float3 bitangentWS : BITANGENT;
     float3 normalWS : NORMAL;
     float3 positionWS : POSITION1;
+    float3 cameraPosition : CAMERA_POSITION;
 };
-
-cbuffer FrameConstants : register(b1)
-{
-    float4x4 view;
-    float4x4 projection;
-    float3 cameraPosition;
-}
 
 cbuffer MaterialConstants : register(b2)
 {
@@ -102,7 +96,7 @@ float3 fresnelSchlick(float cosTheta, float3 F0)
     return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
 }
 
-SampledTextureMaps SampleTextures(PSINPUT input)
+SampledTextureMaps SampleTextures(PSINPUT input, float3x3 TBN, float3 V)
 {
     // === Default Values ===
     float3 d_normal = float3(0, 0, 1); 
@@ -120,14 +114,14 @@ SampledTextureMaps SampleTextures(PSINPUT input)
     // === Height Map ===
     if ((materialFlags & HasHeightMap) != 0 && heightStr > 0.0f)
     {
-        float3x3 TBN = float3x3(normalize(input.tangentWS), normalize(input.bitangentWS), normalize(input.normalWS));
-        float3 viewDirWS = normalize(cameraPosition - input.positionWS);
-        float3 viewDirTS = mul(TBN, viewDirWS);
-
+        float3 viewDirTS = normalize(mul(TBN, V));   
         float height = Textures[heightHandleIndex].Sample(Samplers[0], input.texcoord).r;
-        float parallaxAmount = (height - 0.5f) * heightStr;
-        parallaxUV += parallaxAmount * (viewDirTS.xy / max(viewDirTS.z, 0.1f));
-        parallaxUV = clamp(parallaxUV, 0.0f, 1.0f);
+
+        float parallaxScale = 0.04f;
+        float parallaxBias = 0.01f;
+        
+        float2 offset = viewDirTS.xy * (height * parallaxScale - parallaxBias) * heightStr;
+        parallaxUV += offset;
     }
     else
     {
@@ -196,11 +190,14 @@ SampledTextureMaps SampleTextures(PSINPUT input)
 
 float4 PSMain(PSINPUT input) : SV_TARGET
 {
-    SampledTextureMaps samples = SampleTextures(input);
     
     float3x3 TBN = float3x3(input.tangentWS, input.bitangentWS, input.normalWS);
+    float3 V = input.cameraPosition - input.positionWS;
+    
+    SampledTextureMaps samples = SampleTextures(input, TBN, V);
+    
+    V = normalize(V);
     float3 N = normalize(mul(TBN, normalize(samples.normal * 2.0 - 1.0)));
-    float3 V = normalize(cameraPosition - input.positionWS);
     float3 F0 = lerp(float3(0.04, 0.04, 0.04), samples.albedo, samples.MRAO.r);
     float3 Lo = float3(0.0, 0.0, 0.0);
     

@@ -14,6 +14,7 @@ struct VSOutput
     float3 bitangentWS : BITANGENT;
     float3 normalWS : NORMAL;
     float3 positionWS : POSITION1;
+    float3 cameraPosition : CAMERA_POSITION;
 };
 
 cbuffer ObjectConstants : register(b0)
@@ -44,6 +45,7 @@ VSOutput VSMain(VSInput input)
     output.normalWS = normalize(mul(input.normal, (float3x3) model));
     output.tangentWS = normalize(mul(input.tangent, (float3x3) model));
     output.bitangentWS = normalize(cross(output.normalWS, output.tangentWS));
-
+    output.cameraPosition = cameraPosition;
+    
     return output;
 }
