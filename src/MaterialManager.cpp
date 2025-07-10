@@ -13,7 +13,7 @@ void MaterialManager::LoadInitialMaterials()
 {
     CreateBlankMaterial(MaterialType::DEFAULT);
 
-    /* MaterialDesc Sequence: Albedo, Normal, Metal, Rough, AO, Emmissive, Height */
+    /* MaterialDesc Sequence: Albedo, Normal, Metal, Rough, AO, Emmissive, Height, Tiling, Offset */
     CreateMaterial(MaterialType::ROCK,
         {
         TextureType::ROCK_COLOR,    Vector4(1, 1, 1, 1),
@@ -22,7 +22,9 @@ void MaterialManager::LoadInitialMaterials()
         TextureType::ROCK_ROUGH,    1.0f,
         TextureType::ROCK_AO,       1.0f,
         TextureType::DEFAULT,       0.0f,
-        TextureType::ROCK_HEIGHT,   0.7f
+        TextureType::ROCK_HEIGHT,   0.7f,
+		Vector2(1.0f, 1.0f),
+        Vector2(0.0f, 0.0f)
         });
 
     CreateMaterial(MaterialType::METAL_PLATE,
@@ -33,7 +35,9 @@ void MaterialManager::LoadInitialMaterials()
         TextureType::METAL_ROUGH,   1.0f,
         TextureType::DEFAULT,       0.0f,
         TextureType::DEFAULT,       0.0f,
-        TextureType::DEFAULT,       0.0f
+        TextureType::DEFAULT,       0.0f,
+        Vector2(1.0f, 1.0f),
+        Vector2(0.0f, 0.0f)
         });
 
     CreateMaterial(MaterialType::BRICKS,
@@ -44,7 +48,9 @@ void MaterialManager::LoadInitialMaterials()
         TextureType::BRICKS_ROUGH,  1.0f,
         TextureType::BRICKS_AO,     1.0f,
         TextureType::DEFAULT,       0.0f,
-        TextureType::DEFAULT,       0.0f
+        TextureType::DEFAULT,       0.0f,
+        Vector2(1.0f, 1.0f),
+        Vector2(0.0f, 0.0f)
         });
 }
 
@@ -57,7 +63,9 @@ void MaterialManager::CreateBlankMaterial(const String& materialName)
         TextureType::DEFAULT, 0.0f,
         TextureType::DEFAULT, 0.0f,
         TextureType::DEFAULT, 0.0f,
-        TextureType::DEFAULT, 0.0f
+        TextureType::DEFAULT, 0.0f,
+        Vector2(1.0f, 1.0f),
+        Vector2(0.0f, 0.0f)
         });
 }
 
@@ -122,6 +130,7 @@ MaterialConstants MaterialManager::CreateMaterialConstants(const MaterialDescrip
 {
     auto textureManager = GraphicsEngine::GetInstance()->GetTextureManager();
     MaterialConstants constants = {};
+
     constants.diffuseHandleIndex = textureManager->GetTextureSRVIndex(desc.albedoTex);
     constants.normalHandleIndex = textureManager->GetTextureSRVIndex(desc.normalTex);
     constants.metalHandleIndex = textureManager->GetTextureSRVIndex(desc.metalTex);
@@ -129,14 +138,21 @@ MaterialConstants MaterialManager::CreateMaterialConstants(const MaterialDescrip
     constants.aoHandleIndex = textureManager->GetTextureSRVIndex(desc.aoTex);
     constants.emmissiveHandleIndex = textureManager->GetTextureSRVIndex(desc.emissiveTex);
     constants.heightHandleIndex = textureManager->GetTextureSRVIndex(desc.heightTex);
+
     constants.baseColor = desc.albedoColor;
+
     constants.normalStr = desc.normalStrength;
     constants.metalStr = desc.metalStrength;
     constants.roughStr = desc.roughStrength;
     constants.aoStr = desc.aoStrength;
     constants.emmissiveStr = desc.emissiveStrength;
     constants.heightStr = desc.heightStrength;
+
+    constants.tiling = desc.tiling;
+    constants.offset = desc.offset;
+
     constants.materialFlags = 0;
+
     if (desc.normalTex != "default_normal") constants.materialFlags |= (1 << 0);
     if (desc.metalTex != "default_black")  constants.materialFlags |= (1 << 1);
     if (desc.roughTex != "default_white")  constants.materialFlags |= (1 << 2);

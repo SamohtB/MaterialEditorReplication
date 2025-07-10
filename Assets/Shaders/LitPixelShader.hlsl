@@ -33,6 +33,10 @@ cbuffer MaterialConstants : register(b2)
 
     float emmissiveStr;
     float heightStr;
+    
+    float2 tiling;
+    float2 offset;
+    
     float2 pad;
 };
 
@@ -104,7 +108,7 @@ SampledTextureMaps SampleTextures(PSINPUT input, float3x3 TBN, float3 V)
     float d_roughness = 0.0f;
     float d_ao = 0.0f;
     
-    float2 parallaxUV = input.texcoord;
+    float2 parallaxUV = input.texcoord * tiling + offset;
     
     SampledTextureMaps samples;
     
@@ -122,10 +126,6 @@ SampledTextureMaps SampleTextures(PSINPUT input, float3x3 TBN, float3 V)
         
         float2 offset = viewDirTS.xy * (height * parallaxScale - parallaxBias) * heightStr;
         parallaxUV += offset;
-    }
-    else
-    {
-        parallaxUV = input.texcoord;
     }
     
     // === Albedo Map ===

@@ -57,6 +57,10 @@ struct alignas(16) MaterialConstants
 
     float emmissiveStr;
     float heightStr;
+
+    Vector2 tiling;
+    Vector2 offset;
+
     Vector2 pad;
 };
 
@@ -67,9 +71,10 @@ struct MaterialDescription
     std::string metalTex;
     std::string roughTex;
     std::string aoTex;
-    Vector4 albedoColor;
     std::string emissiveTex;
     std::string heightTex;
+
+    Vector4 albedoColor;
 
     float normalStrength;
     float metalStrength;
@@ -77,6 +82,9 @@ struct MaterialDescription
     float aoStrength;
     float emissiveStrength;
     float heightStrength;
+
+    Vector2 tiling;
+    Vector2 offset;
 
     MaterialDescription(
         const std::string& albedoTex = "",
@@ -86,14 +94,17 @@ struct MaterialDescription
         const std::string& roughTex = "", float roughStrength = 1.0f,
         const std::string& aoTex = "", float aoStrength = 1.0f,
         const std::string& emissiveTex = "", float emissiveStrength = 0.0f,
-        const std::string& heightTex = "", float heightStrength = 0.0f)
+        const std::string& heightTex = "", float heightStrength = 0.0f,
+        const Vector2& tiling = Vector2(1.0f, 1.0f),
+        const Vector2& offset = Vector2(0.0f, 0.0f))
         : albedoTex(albedoTex), albedoColor(albedoColor),
         normalTex(normalTex), normalStrength(normalStrength),
         metalTex(metalTex), metalStrength(metalStrength),
         roughTex(roughTex), roughStrength(roughStrength),
         aoTex(aoTex), aoStrength(aoStrength),
         emissiveTex(emissiveTex), emissiveStrength(emissiveStrength),
-        heightTex(heightTex), heightStrength(heightStrength)
+        heightTex(heightTex), heightStrength(heightStrength),
+        tiling(tiling), offset(offset)
     {
     }
 };

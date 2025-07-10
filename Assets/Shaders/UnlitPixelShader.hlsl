@@ -28,6 +28,10 @@ cbuffer MaterialConstants : register(b2)
 
     float emmissiveStr;
     float heightStr;
+    
+    float2 tiling;
+    float2 offset;
+    
     float2 pad;
 };
 
@@ -36,10 +40,11 @@ static const uint HasAlbedoMap = 1 << 0;
 float4 PSMain(PSINPUT input) : SV_TARGET
 {
     float3 color;
-
+    float2 uv = input.texcoord / tiling + offset;
+    
     if ((materialFlags & HasAlbedoMap) != 0)
     {
-        float3 albedoTex = Textures[diffuseHandleIndex].Sample(Samplers[0], input.texcoord).rgb;
+        float3 albedoTex = Textures[diffuseHandleIndex].Sample(Samplers[0], uv).rgb;
         color = pow(albedoTex, 2.2f) * baseColor.rgb;
         color = pow(color, 1.0 / 2.2);
     }

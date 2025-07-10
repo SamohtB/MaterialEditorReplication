@@ -107,27 +107,45 @@ void Inspector::DrawMaterialTab(AGameObject* object)
     ImGui::SeparatorText("Main Maps");
     if (DrawTextureField("Albedo", matDesc.albedoTex)) { propertyChanged = true; }
     ImGui::SameLine();
-    if (ImGui::ColorEdit4("Albedo Color", &matDesc.albedoColor.x)) { propertyChanged = true; }
+    if (ImGui::ColorEdit4("Color", &matDesc.albedoColor.x)) { propertyChanged = true; }
 
     if (DrawTextureField("Metallic", matDesc.metalTex)) { propertyChanged = true; }
     ImGui::SameLine();
-    if (ImGui::SliderFloat("Metal Strength", &matDesc.metalStrength, 0.0f, 1.0f)) { propertyChanged = true; }
+    if (ImGui::SliderFloat("##MetalStrength", &matDesc.metalStrength, 0.0f, 1.0f)) { propertyChanged = true; }
 
     if (DrawTextureField("Rough", matDesc.roughTex)) { propertyChanged = true; }
     ImGui::SameLine();
-    if (ImGui::SliderFloat("Rough Strength", &matDesc.roughStrength, 0.0f, 1.0f)) { propertyChanged = true; }
+    if (ImGui::SliderFloat("##RoughStrength", &matDesc.roughStrength, 0.0f, 1.0f)) { propertyChanged = true; }
 
     if (DrawTextureField("Normal", matDesc.normalTex)) { propertyChanged = true; }
     ImGui::SameLine();
-    if (ImGui::SliderFloat("Strength", &matDesc.normalStrength, 0.0f, 2.0f)) { propertyChanged = true; }
+    if (ImGui::SliderFloat("##NormalStrength", &matDesc.normalStrength, 0.0f, 2.0f)) { propertyChanged = true; }
 
     if (DrawTextureField("Height Map", matDesc.heightTex)) { propertyChanged = true; }
     ImGui::SameLine();
-    if (ImGui::SliderFloat("Height Scale", &matDesc.heightStrength, 0.0f, 1.0f)) { propertyChanged = true; }
+    if (ImGui::SliderFloat("##HeightStrength", &matDesc.heightStrength, 0.0f, 1.0f)) { propertyChanged = true; }
 
     if (DrawTextureField("Occlusion", matDesc.aoTex)) { propertyChanged = true; }
     ImGui::SameLine();
-    if (ImGui::SliderFloat("AO Strength", &matDesc.aoStrength, 0.0f, 1.0f)) { propertyChanged = true; }
+    if (ImGui::SliderFloat("##AOStrength", &matDesc.aoStrength, 0.0f, 1.0f)) { propertyChanged = true; }
+
+    if (DrawTextureField("Emissive", matDesc.emissiveTex)) { propertyChanged = true; }
+    ImGui::SameLine();
+    if (ImGui::SliderFloat("##EmmisiveStrength", &matDesc.emissiveStrength, 0.0f, 10.0f)) { propertyChanged = true; }
+
+    ImGui::Columns(2, nullptr, false); 
+    ImGui::SetColumnWidth(0, 100); 
+
+    ImGui::Text("Tiling");
+    ImGui::NextColumn();
+    if (ImGui::DragFloat2("##Tiling", &matDesc.tiling.x, 0.01f, 0.01f, 100.0f)) { propertyChanged = true; }
+
+    ImGui::NextColumn();
+    ImGui::Text("Offset");
+    ImGui::NextColumn();
+    if (ImGui::DragFloat2("##Offset", &matDesc.offset.x, 0.01f, -10.0f, 10.0f)) { propertyChanged = true; }
+
+    ImGui::Columns(1);
 
     if (propertyChanged)
     {
