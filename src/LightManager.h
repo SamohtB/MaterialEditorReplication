@@ -26,7 +26,7 @@ struct alignas(16) LightConstants
 class LightManager
 {
 public:
-	using LightMap = std::unordered_map<String, ALight*>;
+	using LightMap = std::unordered_map<String, std::weak_ptr<ALight>>;
 
     LightManager(ID3D12Device* device);
     ~LightManager() = default;

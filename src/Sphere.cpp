@@ -85,7 +85,7 @@ Sphere::Sphere(String name) : AMeshObject(name)
     SetMaterial(MaterialType::DEFAULT);
 }
 
-void Sphere::OnUpdate(float deltaTime)
+void Sphere::Update(float deltaTime)
 {
 	
 }

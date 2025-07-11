@@ -8,7 +8,7 @@ public:
     virtual ~Sphere() = default;
 
 protected:
-	void OnUpdate(float deltaTime) override;
+	void Update(float deltaTime) override;
 
 private:
     static const uint32_t TESSELLATION = 16;

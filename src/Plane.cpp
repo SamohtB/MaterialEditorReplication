@@ -51,6 +51,6 @@ Plane::Plane(String name) : AMeshObject(name)
     SetMaterial(MaterialType::DEFAULT);
 }
 
-void Plane::OnUpdate(float deltaTime)
+void Plane::Update(float deltaTime)
 {
 }

@@ -1,19 +1,20 @@
 #pragma once
 #include "pch.h"
 #include "FrameConstants.h"
-#include "ConstantBuffer.h"
+#include "DynamicConstantBufferPool.h"
 
 class DeviceContext;
 class AGameObject;
+class AMeshObject;
 
 class GameObjectManager
 {
 public:
     using GameObjectPtr = std::shared_ptr<AGameObject>;
-    using String = std::string;
-    using List =  std::vector<GameObjectPtr>;
+    using MeshPtr = std::shared_ptr<AMeshObject>;
+    using ObjectList =  std::vector<GameObjectPtr>;
+    using RenderedList = std::vector<MeshPtr>;
     using Table = std::unordered_map<String, GameObjectPtr>;
-    using CBMap = std::unordered_map<UINT, std::array<UINT, FRAME_COUNT>>;
 
     static GameObjectManager* GetInstance();
     static void Initialize(ID3D12Device* device);
@@ -25,7 +26,7 @@ public:
     void UpdateAll(float deltaTime);
     void RenderAll(DeviceContext* context, String shader);
 
-    void AddGameObject(GameObjectPtr gameObject, bool hasConstantBuffer = true);
+    void AddGameObject(GameObjectPtr gameObject, bool isRendered = true);
     void DeleteObject(AGameObject* game_object);
     void DeleteObjectByName(String name);
     void ClearAllObjects();
@@ -33,28 +34,21 @@ public:
     AGameObject* GetSelectedObject() const;
     void SetSelectedObject(AGameObject* object);
 
-    void UpdateConstantBuffer(UINT objId, const ObjectConstantsData& data);
-    D3D12_GPU_VIRTUAL_ADDRESS GetObjectConstantsAddress(UINT objectId, UINT frameIndex);
-
-private:
-    UINT ReserveSlot();
+    void UploadObjectConstants(UINT frameIndex);
 
     GameObjectManager(ID3D12Device* device);
     ~GameObjectManager() = default;
-    GameObjectManager(GameObjectManager const&) {}
-    GameObjectManager& operator=(GameObjectManager const&) {}
+    GameObjectManager(GameObjectManager const&) = delete;
+    GameObjectManager& operator=(GameObjectManager const&) = delete;
 
-    static GameObjectManager* sharedInstance;
+private:
+    static std::unique_ptr<GameObjectManager> sharedInstance;
 
-    CBMap m_cbMap;
-    List m_renderedObjectList;
-    List m_logicObjectList;
+    std::unique_ptr<DynamicConstantBufferPool> m_objectConstantsBuffer;
+
+    ObjectList m_objectList;
+    RenderedList m_renderedList;
     Table m_objectTable;
-    std::unique_ptr<ObjectConstantsBuffer> m_objectConstantsBuffer;
-
-    UINT m_nextRenderedSlot = 0;
-    UINT m_nextLogicSlot = 0;
-    const int MAX_OBJECT_COUNT = 128;
 
 	AGameObject* m_selectedObject = nullptr;
 

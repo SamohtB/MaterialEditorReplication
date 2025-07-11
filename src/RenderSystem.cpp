@@ -6,6 +6,7 @@
 #include "TextureManager.h"
 #include "MaterialManager.h"
 #include "LightManager.h"
+#include "GameObjectManager.h"
 
 #include "PipelineStateManager.h"
 #include "DescriptorHeapManager.h"
@@ -50,6 +51,7 @@ void RenderSystem::BeginFrame()
 	this->m_deviceContext->SetViewport(&m_viewport);
 	this->m_deviceContext->SetScissorRect(&m_scissorRect);
 	
+	GameObjectManager::GetInstance()->UploadObjectConstants(currentFrameIndex);
 	GraphicsEngine::GetInstance()->GetMaterialManager()->UploadMaterialConstants(currentFrameIndex);
 	GraphicsEngine::GetInstance()->GetLightManager()->UploadLightConstants(currentFrameIndex);
 

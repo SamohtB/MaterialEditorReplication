@@ -8,7 +8,7 @@ public:
 	~Cube() = default;
 
 	// Inherited via AMeshObject
-	void OnUpdate(float deltaTime) override;
+	void Update(float deltaTime) override;
 private:
 };
 

@@ -12,17 +12,15 @@
 #include "MaterialManager.h"
 #include "LightManager.h"
 
-AMeshObject::AMeshObject(String name, String shader, String material) : AGameObject(name), m_material(material) {}
+#include "Debug.h"
+
+AMeshObject::AMeshObject(String name, String shader, String material) : AGameObject(name), m_material(material) 
+{
+	m_gpuAddresses.resize(FRAME_COUNT);
+}
 
 void AMeshObject::Update(float deltaTime)
 {
-	this->OnUpdate(deltaTime);
-
-    ObjectConstantsData objData = {};
-    objData.modelMatrix = this->GetLocalMatrix();
-    objData.objectId = this->GetId();
-
-    GameObjectManager::GetInstance()->UpdateConstantBuffer(this->GetId(), objData);
 }
 
 void AMeshObject::Draw(DeviceContext* context, String shader)
@@ -31,7 +29,7 @@ void AMeshObject::Draw(DeviceContext* context, String shader)
     auto frameIndex = renderSystem->GetCurrentFrameIndex();
 
     context->SetPSO(renderSystem->GetPipelineState(shader));
-    context->SetObjectConstants(GameObjectManager::GetInstance()->GetObjectConstantsAddress(this->GetId(), frameIndex));
+    context->SetObjectConstants(this->m_gpuAddresses[frameIndex]);
     context->SetFrameConstants(renderSystem->GetFrameConstantsAddress());
     context->SetTexture(GraphicsEngine::GetInstance()->GetTextureManager()->GetSRVStart());
     context->SetMaterialConstants(GraphicsEngine::GetInstance()->GetMaterialManager()->GetMaterialHandle(this->m_material, frameIndex));
@@ -55,6 +53,12 @@ void AMeshObject::SetMaterial(String material)
 String AMeshObject::GetMaterial() const
 {
     return this->m_material;
+}
+
+void AMeshObject::SetGPUAddress(UINT frameIndex, D3D12_GPU_VIRTUAL_ADDRESS address)
+{
+    Debug::Assert(frameIndex < FRAME_COUNT, "Frame index out of bounds in AMeshObject::SetGPUAddress");
+    this->m_gpuAddresses[frameIndex] = address;
 }
 
 void AMeshObject::SetTopology(D3D12_PRIMITIVE_TOPOLOGY topology)

@@ -101,7 +101,7 @@ Cube::Cube(String name) : AMeshObject(name)
 	SetMaterial(MaterialType::DEFAULT);
 }
 
-void Cube::OnUpdate(float deltaTime)
+void Cube::Update(float deltaTime)
 {
 
 }

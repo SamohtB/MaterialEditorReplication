@@ -1,5 +1,6 @@
 #include "LightManager.h"
 #include "GameObjectManager.h"
+#include "Debug.h"
 
 LightManager::LightManager(ID3D12Device* device) : m_lightCount(0)
 {
@@ -14,7 +15,7 @@ void LightManager::CreateLight(const String& lightName, const Vector3& color, fl
         return;
     }
 	
-	auto light = std::make_unique<PointLight>(lightName, color, intensity, range);
+	auto light = std::make_shared<PointLight>(lightName, color, intensity, range);
 
     PointLightData data;
     data.position = light->GetLocalPosition();
@@ -25,8 +26,8 @@ void LightManager::CreateLight(const String& lightName, const Vector3& color, fl
     m_pointLightData[m_lightCount] = data;
 	m_lightCount++;
 
-    this->m_lightMap[lightName] = light.get();
-    GameObjectManager::GetInstance()->AddGameObject(std::move(light));
+    this->m_lightMap[lightName] = light;
+    GameObjectManager::GetInstance()->AddGameObject(light, false);
 }
 
 void LightManager::UploadLightConstants(UINT currentFrameIndex)
@@ -36,20 +37,34 @@ void LightManager::UploadLightConstants(UINT currentFrameIndex)
     LightConstants constants = {};
     uint32_t i = 0;
 
-    for (auto& [name, lightPtr] : m_lightMap)
+    for (auto it = m_lightMap.begin(); it != m_lightMap.end();)
     {
-        if (i >= m_lightCount) break;
+        /* Remove Deleted References */
+        std::shared_ptr<ALight> baseLight = it->second.lock();
+        if (!baseLight)
+        {
+            it = m_lightMap.erase(it);
+            continue;
+        }
 
-        PointLight* light = static_cast<PointLight*>(lightPtr);
+        std::shared_ptr<PointLight> pointLight = std::dynamic_pointer_cast<PointLight>(baseLight);
+
+        if (!pointLight)
+        {
+            it++;
+            continue; 
+        }
+
+        if (i >= MaxPointLights) break;
 
         PointLightData data;
-        data.position = light->GetLocalPosition();  
-        data.range = light->GetRange();
-        data.color = light->GetColor();
-        data.intensity = light->GetIntensity();
+        data.position = pointLight->GetLocalPosition();
+        data.range = pointLight->GetRange();
+        data.color = pointLight->GetColor();
+        data.intensity = pointLight->GetIntensity();
 
-        constants.pointLights[i] = data;
-        i++;
+        constants.pointLights[i++] = data;
+        it++;
     }
 
     constants.pointLightCount = i;
