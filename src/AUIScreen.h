@@ -15,8 +15,11 @@ public:
     bool IsVisible() const;
     void SetVisible(bool visible);
 
+protected:
+    bool m_visible;
+
 private:
     String m_name;
-    bool m_visible;
+    
 };
 

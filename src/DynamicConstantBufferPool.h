@@ -1,9 +1,9 @@
 #pragma once
 #include "pch.h"
 
-inline UINT Align(UINT size)
+inline size_t Align(size_t size, size_t alignment = 256)
 {
-    return (size + 255) & ~255;
+    return (size + alignment - 1) & ~(alignment - 1);
 }
 
 class DynamicConstantBufferPool
@@ -20,11 +20,9 @@ public:
 
     void BeginFrame(UINT frameIndex);
     void SetCurrentFrameIndex(UINT frameIndex);
-    Allocation Allocate(size_t size);
-
-    /* For Static Data */
     D3D12_GPU_VIRTUAL_ADDRESS GetCurrentBufferAddress(UINT frameIndex) const;
-    std::vector<void*> GetMappedAddress();
+
+    Allocation Allocate(size_t size);
 
 private:
     void CreateBuffers(ID3D12Device* device);

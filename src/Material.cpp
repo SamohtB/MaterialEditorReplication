@@ -1,4 +1,6 @@
 #include "Material.h"
+#include "FrameConstants.h"
+#include "Debug.h"
 
 Material::Material(String name, const std::vector<D3D12_GPU_VIRTUAL_ADDRESS>& perFrameAddress, MaterialDescription description)
     : m_name(name), m_gpuAddresses(perFrameAddress), m_data(description), m_version(0)
@@ -22,8 +24,6 @@ void Material::SetDescription(const MaterialDescription& description)
 
 void Material::SetGPUAddress(UINT frameIndex, D3D12_GPU_VIRTUAL_ADDRESS address)
 {
-    if (frameIndex < m_gpuAddresses.size())
-    {
-        this->m_gpuAddresses[frameIndex] = address;
-    }
+	Debug::Assert(frameIndex < FRAME_COUNT, "Frame index out of bounds in Material::SetGPUAddress");
+    this->m_gpuAddresses[frameIndex] = address;
 }

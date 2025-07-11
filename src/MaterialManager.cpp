@@ -90,7 +90,7 @@ void MaterialManager::CreateMaterial(const String& materialName, MaterialDescrip
     Debug::Log(materialName + " Material Created");
 }
 
-void MaterialManager::UpdateMaterial(const String& materialName, MaterialDescription materialDesc)
+void MaterialManager::UpdateMaterialDescription(const String& materialName, MaterialDescription materialDesc)
 {
     if (!m_materialMap.count(materialName))
     {
@@ -100,20 +100,19 @@ void MaterialManager::UpdateMaterial(const String& materialName, MaterialDescrip
 
     auto& material = m_materialMap[materialName];
     material->SetDescription(materialDesc);
-
-    MaterialConstants constants = CreateMaterialConstants(materialDesc);
-    for (UINT i = 0; i < FRAME_COUNT; ++i)
-    {
-        m_materialBuffer->SetCurrentFrameIndex(i);
-        auto cb = m_materialBuffer->Allocate(sizeof(MaterialConstants));
-        memcpy(cb.cpuPtr, &constants, sizeof(MaterialConstants));
-        material->SetGPUAddress(i, cb.gpuAddr);
-    }
 }
 
-void MaterialManager::BeginFrame(UINT currentFrameIndex)
+void MaterialManager::UploadMaterialConstants(UINT currentFrameIndex)
 {
-    m_materialBuffer->BeginFrame(currentFrameIndex);
+	m_materialBuffer->BeginFrame(currentFrameIndex);
+
+	for (auto& [name, material] : m_materialMap)
+	{
+		MaterialConstants constants = CreateMaterialConstants(material->GetDescription());
+		auto cb = m_materialBuffer->Allocate(sizeof(MaterialConstants));
+		memcpy(cb.cpuPtr, &constants, sizeof(MaterialConstants));
+		material->SetGPUAddress(currentFrameIndex, cb.gpuAddr);
+	}
 }
 
 D3D12_GPU_VIRTUAL_ADDRESS MaterialManager::GetMaterialHandle(const String& materialName, UINT currentFrameIndex)

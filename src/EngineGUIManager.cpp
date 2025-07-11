@@ -11,6 +11,8 @@
 #include "Toolbar.h"
 #include "Inspector.h"
 
+#include "Debug.h"
+
 std::unique_ptr<EngineGUIManager> EngineGUIManager::sharedInstance = nullptr;
 
 EngineGUIManager* EngineGUIManager::GetInstance()
@@ -57,6 +59,18 @@ std::vector<AUIScreen*> EngineGUIManager::GetAllScreens()
 	}
 
 	return allScreens;
+}
+
+AUIScreen* EngineGUIManager::GetUI(const String& name)
+{
+	auto it = m_uiTable.find(name);
+	if (it != m_uiTable.end())
+	{
+		return it->second.get();
+	}
+
+	Debug::LogWarning("UI with name '" + name + "' not found.");
+	return nullptr;
 }
 
 EngineGUIManager::EngineGUIManager(HWND hwnd)

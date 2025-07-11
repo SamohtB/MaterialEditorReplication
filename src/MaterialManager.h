@@ -17,9 +17,10 @@ public:
     void LoadInitialMaterials();
     void CreateBlankMaterial(const String& materialName);
     void CreateMaterial(const String& materialName, MaterialDescription materialDesc);
-    void UpdateMaterial(const String& materialName, MaterialDescription materialDesc);
+    void UpdateMaterialDescription(const String& materialName, MaterialDescription materialDesc);
+    void UploadMaterialConstants(UINT currentFrameIndex);
 
-    void BeginFrame(UINT currentFrameIndex);
+    
     D3D12_GPU_VIRTUAL_ADDRESS GetMaterialHandle(const String& materialName, UINT currentFrameIndex);
     MaterialDescription GetMaterialDescription(const String& materialName);
 

@@ -40,29 +40,6 @@ D3D12_GPU_VIRTUAL_ADDRESS DynamicConstantBufferPool::GetCurrentBufferAddress(UIN
     return this->m_buffers[frameIndex]->GetGPUVirtualAddress();
 }
 
-std::vector<void*> DynamicConstantBufferPool::GetMappedAddress()
-{
-    return this->m_mappedPtrs;
-}
-
-DynamicConstantBufferPool::Allocation DynamicConstantBufferPool::Allocate(size_t size)
-{
-    size = Align(size);
-    size_t& offset = m_currentOffsets[m_currentFrameIndex];
-
-    Debug::Assert(offset + size <= m_bufferSizePerFrame, "DynamicConstantBufferPool overflow");
-
-    uint8_t* cpuBase = reinterpret_cast<uint8_t*>(m_mappedPtrs[m_currentFrameIndex]);
-    D3D12_GPU_VIRTUAL_ADDRESS gpuBase = m_buffers[m_currentFrameIndex]->GetGPUVirtualAddress();
-
-    Allocation result;
-    result.cpuPtr = cpuBase + offset;
-    result.gpuAddr = gpuBase + offset;
-
-    offset += size;
-    return result;
-}
-
 void DynamicConstantBufferPool::CreateBuffers(ID3D12Device* device)
 {
     m_buffers.resize(FRAME_COUNT);
@@ -87,4 +64,22 @@ void DynamicConstantBufferPool::CreateBuffers(ID3D12Device* device)
         m_buffers[i]->Map(0, &readRange, &mappedPtr);
         m_mappedPtrs[i] = mappedPtr;
     }
+}
+
+DynamicConstantBufferPool::Allocation DynamicConstantBufferPool::Allocate(size_t size)
+{
+    size = Align(size);
+    size_t& offset = m_currentOffsets[m_currentFrameIndex];
+
+    Debug::Assert(offset + size <= m_bufferSizePerFrame, "DynamicConstantBufferPool overflow");
+
+    uint8_t* cpuBase = reinterpret_cast<uint8_t*>(m_mappedPtrs[m_currentFrameIndex]);
+    D3D12_GPU_VIRTUAL_ADDRESS gpuBase = m_buffers[m_currentFrameIndex]->GetGPUVirtualAddress();
+
+    Allocation result;
+    result.cpuPtr = cpuBase + offset;
+    result.gpuAddr = gpuBase + offset;
+
+    offset += size;
+    return result;
 }

@@ -50,8 +50,8 @@ void RenderSystem::BeginFrame()
 	this->m_deviceContext->SetViewport(&m_viewport);
 	this->m_deviceContext->SetScissorRect(&m_scissorRect);
 	
-	GraphicsEngine::GetInstance()->GetMaterialManager()->BeginFrame(currentFrameIndex);
-	GraphicsEngine::GetInstance()->GetLightManager()->BeginFrame(currentFrameIndex);
+	GraphicsEngine::GetInstance()->GetMaterialManager()->UploadMaterialConstants(currentFrameIndex);
+	GraphicsEngine::GetInstance()->GetLightManager()->UploadLightConstants(currentFrameIndex);
 
 	auto renderTarget = this->m_renderTargetManager->GetRenderTarget(currentFrameIndex);
 	this->m_deviceContext->TransitionToRenderTarget(renderTarget);

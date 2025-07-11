@@ -35,7 +35,7 @@ void AMeshObject::Draw(DeviceContext* context, String shader)
     context->SetFrameConstants(renderSystem->GetFrameConstantsAddress());
     context->SetTexture(GraphicsEngine::GetInstance()->GetTextureManager()->GetSRVStart());
     context->SetMaterialConstants(GraphicsEngine::GetInstance()->GetMaterialManager()->GetMaterialHandle(this->m_material, frameIndex));
-	context->SetLightConstants(GraphicsEngine::GetInstance()->GetLightManager()->GetLightBufferHandle(frameIndex));
+	context->SetLightConstants(GraphicsEngine::GetInstance()->GetLightManager()->GetLightBuffer(frameIndex));
 
     context->SetVertexBuffer(this->m_vertexBuffer->GetVertexBufferViewPointer());
     context->SetIndexBuffer(this->m_indexBuffer->GetIndexBufferViewPointer());

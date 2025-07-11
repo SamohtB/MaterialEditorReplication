@@ -6,15 +6,6 @@
 #include "ALight.h"
 #include "PointLight.h"
 
-struct alignas(16) DirectionalLightData
-{
-    Vector3 direction;
-    float padding;
-
-    Vector3 color;
-    float intensity;
-};
-
 struct alignas(16) PointLightData
 {
     Vector3 position;
@@ -42,11 +33,12 @@ public:
 
 	void CreateLight(const String& lightName, const Vector3& color, float intensity, float range);
 
-	void BeginFrame(UINT currentFrameIndex);
-    D3D12_GPU_VIRTUAL_ADDRESS GetLightBufferHandle(UINT currentFrameIndex) const;
+    void UploadLightConstants(UINT currentFrameIndex);
+    D3D12_GPU_VIRTUAL_ADDRESS GetLightBuffer(UINT currentFrameIndex) const;
 
 private:
     std::unique_ptr<DynamicConstantBufferPool> m_lightBuffer;
-    LightConstants m_lightConstants;
+    std::array<PointLightData, MaxPointLights> m_pointLightData;
     LightMap m_lightMap;
+    UINT m_lightCount;
 };

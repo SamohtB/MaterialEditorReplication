@@ -11,13 +11,7 @@ Inspector::Inspector() : AUIScreen("Inspector") {}
 
 void Inspector::DrawUI()
 {
-    if (!this->IsVisible()) //
-    {
-        return;
-    }
-
-    bool is_visible = this->IsVisible(); //
-    ImGui::Begin("Inspector", &is_visible);
+    ImGui::Begin("Inspector", &this->m_visible);
 
     AGameObject* object = GameObjectManager::GetInstance()->GetSelectedObject();
     if (object != nullptr)
@@ -50,8 +44,6 @@ void Inspector::DrawUI()
     }
 
     ImGui::End();
-
-    this->SetVisible(is_visible); //
 }
 
 void Inspector::DrawObjectInfo(AGameObject* object)
@@ -149,7 +141,7 @@ void Inspector::DrawMaterialTab(AGameObject* object)
 
     if (propertyChanged)
     {
-        GraphicsEngine::GetInstance()->GetMaterialManager()->UpdateMaterial(currentMat, matDesc);
+        GraphicsEngine::GetInstance()->GetMaterialManager()->UpdateMaterialDescription(currentMat, matDesc);
     }
 }
 
