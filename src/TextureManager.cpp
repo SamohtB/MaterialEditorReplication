@@ -18,15 +18,17 @@ void TextureManager::LoadInitialTextures()
     LoadTexture(TextureType::ROCK_AO, L"Assets/Textures/rock_ao.png");
     LoadTexture(TextureType::ROCK_HEIGHT, L"Assets/Textures/rock_h.png");
 
-    LoadTexture(TextureType::METAL_COLOR, L"Assets/Textures/metal_plate_d.jpg");
-    LoadTexture(TextureType::METAL_NORMAL, L"Assets/Textures/metal_plate_n.jpg");
-    LoadTexture(TextureType::METAL_ROUGH, L"Assets/Textures/metal_plate_r.jpg");
-    LoadTexture(TextureType::METAL_METAL, L"Assets/Textures/metal_plate_m.jpg");
+    LoadTexture(TextureType::METAL_COLOR, L"Assets/Textures/metal_d.png");
+    LoadTexture(TextureType::METAL_NORMAL, L"Assets/Textures/metal_n.png");
+    LoadTexture(TextureType::METAL_ROUGH, L"Assets/Textures/metal_r.png");
+    LoadTexture(TextureType::METAL_METAL, L"Assets/Textures/metal_m.png");
+    LoadTexture(TextureType::METAL_HEIGHT, L"Assets/Textures/metal_h.png");
 
-    LoadTexture(TextureType::BRICKS_COLOR, L"Assets/Textures/bricks_d.jpg");
-    LoadTexture(TextureType::BRICKS_NORMAL, L"Assets/Textures/bricks_n.jpg");
-    LoadTexture(TextureType::BRICKS_ROUGH, L"Assets/Textures/bricks_r.jpg");
-    LoadTexture(TextureType::BRICKS_AO, L"Assets/Textures/bricks_ao.jpg");
+    LoadTexture(TextureType::BRICKS_COLOR, L"Assets/Textures/bricks_d.png");
+    LoadTexture(TextureType::BRICKS_NORMAL, L"Assets/Textures/bricks_n.png");
+    LoadTexture(TextureType::BRICKS_ROUGH, L"Assets/Textures/bricks_r.png");
+    LoadTexture(TextureType::BRICKS_AO, L"Assets/Textures/bricks_ao.png");
+    LoadTexture(TextureType::BRICKS_HEIGHT, L"Assets/Textures/bricks_h.png");
     
 }
 

@@ -18,9 +18,13 @@ public:
     DynamicConstantBufferPool(ID3D12Device* device, size_t bufferSizePerFrame);
     ~DynamicConstantBufferPool();
 
-    void BeginFrame(uint32_t frameIndex);
+    void BeginFrame(UINT frameIndex);
     void SetCurrentFrameIndex(UINT frameIndex);
     Allocation Allocate(size_t size);
+
+    /* For Static Data */
+    D3D12_GPU_VIRTUAL_ADDRESS GetCurrentBufferAddress(UINT frameIndex) const;
+    std::vector<void*> GetMappedAddress();
 
 private:
     void CreateBuffers(ID3D12Device* device);

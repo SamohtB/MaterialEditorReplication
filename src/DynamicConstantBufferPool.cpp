@@ -24,7 +24,7 @@ DynamicConstantBufferPool::~DynamicConstantBufferPool()
     }
 }
 
-void DynamicConstantBufferPool::BeginFrame(uint32_t frameIndex)
+void DynamicConstantBufferPool::BeginFrame(UINT frameIndex)
 {
     m_currentFrameIndex = frameIndex;
     m_currentOffsets[frameIndex] = 0;
@@ -33,6 +33,16 @@ void DynamicConstantBufferPool::BeginFrame(uint32_t frameIndex)
 void DynamicConstantBufferPool::SetCurrentFrameIndex(UINT frameIndex)
 {
     m_currentFrameIndex = frameIndex;
+}
+
+D3D12_GPU_VIRTUAL_ADDRESS DynamicConstantBufferPool::GetCurrentBufferAddress(UINT frameIndex) const
+{
+    return this->m_buffers[frameIndex]->GetGPUVirtualAddress();
+}
+
+std::vector<void*> DynamicConstantBufferPool::GetMappedAddress()
+{
+    return this->m_mappedPtrs;
 }
 
 DynamicConstantBufferPool::Allocation DynamicConstantBufferPool::Allocate(size_t size)

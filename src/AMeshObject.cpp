@@ -1,12 +1,16 @@
 #include "AMeshObject.h"
 
+#include "GameObjectManager.h"
+
+#include "GraphicsEngine.h"
+
 #include "DeviceContext.h"
 #include "RenderSystem.h"
 #include "RenderDevice.h"
-#include "GraphicsEngine.h"
-#include "GameObjectManager.h"
+
 #include "TextureManager.h"
 #include "MaterialManager.h"
+#include "LightManager.h"
 
 AMeshObject::AMeshObject(String name, String shader, String material) : AGameObject(name), m_material(material) {}
 
@@ -31,6 +35,7 @@ void AMeshObject::Draw(DeviceContext* context, String shader)
     context->SetFrameConstants(renderSystem->GetFrameConstantsAddress());
     context->SetTexture(GraphicsEngine::GetInstance()->GetTextureManager()->GetSRVStart());
     context->SetMaterialConstants(GraphicsEngine::GetInstance()->GetMaterialManager()->GetMaterialHandle(this->m_material, frameIndex));
+	context->SetLightConstants(GraphicsEngine::GetInstance()->GetLightManager()->GetLightBufferHandle(frameIndex));
 
     context->SetVertexBuffer(this->m_vertexBuffer->GetVertexBufferViewPointer());
     context->SetIndexBuffer(this->m_indexBuffer->GetIndexBufferViewPointer());

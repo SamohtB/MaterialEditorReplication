@@ -119,6 +119,11 @@ void DeviceContext::SetFrameConstants(D3D12_GPU_VIRTUAL_ADDRESS address)
     this->m_commandList->SetGraphicsRootConstantBufferView(RootDescriptorIndex::FRAME_CONSTANTS, address);
 }
 
+void DeviceContext::SetLightConstants(D3D12_GPU_VIRTUAL_ADDRESS address)
+{
+	this->m_commandList->SetGraphicsRootConstantBufferView(RootDescriptorIndex::LIGHT_CONSTANTS, address);
+}
+
 void DeviceContext::SetViewport(CD3DX12_VIEWPORT* viewport)
 {
     m_commandList->RSSetViewports(1, viewport);

@@ -35,7 +35,7 @@ void MaterialManager::LoadInitialMaterials()
         TextureType::METAL_ROUGH,   1.0f,
         TextureType::DEFAULT,       0.0f,
         TextureType::DEFAULT,       0.0f,
-        TextureType::DEFAULT,       0.0f,
+        TextureType::METAL_HEIGHT,  1.0f,
         Vector2(1.0f, 1.0f),
         Vector2(0.0f, 0.0f)
         });
@@ -48,7 +48,7 @@ void MaterialManager::LoadInitialMaterials()
         TextureType::BRICKS_ROUGH,  1.0f,
         TextureType::BRICKS_AO,     1.0f,
         TextureType::DEFAULT,       0.0f,
-        TextureType::DEFAULT,       0.0f,
+        TextureType::BRICKS_HEIGHT, 1.0f,
         Vector2(1.0f, 1.0f),
         Vector2(0.0f, 0.0f)
         });

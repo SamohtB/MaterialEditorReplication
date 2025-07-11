@@ -133,6 +133,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\LightManager.cpp" />
+    <ClCompile Include="src\PointLight.cpp" />
+    <ClCompile Include="src\ALight.cpp" />
     <ClCompile Include="src\ABaseWindow.cpp" />
     <ClCompile Include="src\AGameObject.cpp" />
     <ClCompile Include="src\AMeshObject.cpp" />
@@ -185,6 +188,9 @@
     <ClCompile Include="src\Win32App.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\LightManager.h" />
+    <ClInclude Include="src\PointLight.h" />
+    <ClInclude Include="src\ALight.h" />
     <ClInclude Include="src\ABaseWindow.h" />
     <ClInclude Include="src\AGameObject.h" />
     <ClInclude Include="src\AMeshObject.h" />
@@ -222,6 +228,7 @@
     <ClInclude Include="src\InputListener.h" />
     <ClInclude Include="src\InputSystem.h" />
     <ClInclude Include="src\Inspector.h" />
+    <ClInclude Include="src\LightTypes.h" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\MaterialManager.h" />
     <ClInclude Include="src\MaterialTypes.h" />

@@ -5,6 +5,7 @@
 #include "GraphicsEngine.h"
 #include "TextureManager.h"
 #include "MaterialManager.h"
+#include "LightManager.h"
 
 #include "PipelineStateManager.h"
 #include "DescriptorHeapManager.h"
@@ -50,6 +51,7 @@ void RenderSystem::BeginFrame()
 	this->m_deviceContext->SetScissorRect(&m_scissorRect);
 	
 	GraphicsEngine::GetInstance()->GetMaterialManager()->BeginFrame(currentFrameIndex);
+	GraphicsEngine::GetInstance()->GetLightManager()->BeginFrame(currentFrameIndex);
 
 	auto renderTarget = this->m_renderTargetManager->GetRenderTarget(currentFrameIndex);
 	this->m_deviceContext->TransitionToRenderTarget(renderTarget);

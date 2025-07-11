@@ -17,12 +17,22 @@ void Toolbar::DrawUI()
     {
         FileMenu();
         GameObjects();
+        Lighting();
         Windows();
         ShaderSelector();
         DisplayFPS();
     }
 
     ImGui::EndMainMenuBar();
+}
+
+void Toolbar::Lighting()
+{
+    if (ImGui::BeginMenu("Lighting"))
+    {
+        if (ImGui::MenuItem("Point Light")) { GameObjectSpawner::CreateLight(); }
+        ImGui::EndMenu();
+    }
 }
 
 void Toolbar::GameObjects()

@@ -40,6 +40,22 @@ cbuffer MaterialConstants : register(b2)
     float2 pad;
 };
 
+struct PointLightData
+{
+    float3 position;
+    float range;
+
+    float3 color;
+    float intensity;
+};
+
+cbuffer LightConstants : register(b3)
+{
+    PointLightData pointLights[4];
+    uint pointLightCount;
+    float3 padding;
+};
+
 static const uint HasAlbedoMap = 1 << 0;
 static const uint HasNormalMap = 1 << 1;
 static const uint HasMetallicMap = 1 << 2;
@@ -54,9 +70,6 @@ struct SampledTextureMaps
     float3 normal;
     float3 MRAO;
 };
-
-static const float3 globalLightDir = normalize(float3(0.5, 1.0, -0.5));
-static const float3 globalLightColor = float3(10.0f, 10.0f, 10.0f);
 
 static const float PI = 3.14159265359;
 
@@ -201,28 +214,33 @@ float4 PSMain(PSINPUT input) : SV_TARGET
     float3 F0 = lerp(float3(0.04, 0.04, 0.04), samples.albedo, samples.MRAO.r);
     float3 Lo = float3(0.0, 0.0, 0.0);
     
-    // === Global Directional Lighting ===
-    float3 L = normalize(-globalLightDir);
-    float3 H = normalize(V + L);
-    float3 radiance = globalLightColor;
-    
-        /* Point Light Calc Stuff */ 
-        //float distance = length(defaultLightPositions[0] - input.positionWS);
-        //float attenuation = 1.0 / (distance * distance);
-    
-    float NDF = DistributionGGX(N, H, samples.MRAO.g);
-    float G = GeometrySmith(N, V, L, samples.MRAO.g);
-    float3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
+    for (uint i = 0; i < pointLightCount; ++i)
+    {
+        PointLightData light = pointLights[i];
+        float3 L = light.position - input.positionWS;
+        float distance = length(L);
+        L = L / distance;
 
-    float3 kS = F;
-    float3 kD = (1.0 - kS) * (1.0 - samples.MRAO.r);
+        float3 H = normalize(V + L);
+        float attenuation = saturate(1.0 - distance / light.range);
+        attenuation *= attenuation; // optional quadratic falloff
 
-    float3 numerator = NDF * G * F;
-    float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
-    float3 specular = numerator / denominator;
+        float3 radiance = light.color * light.intensity * attenuation;
 
-    float NdotL = max(dot(N, L), 0.0);
-    Lo += (kD * samples.albedo / PI + specular) * radiance * NdotL;
+        float NDF = DistributionGGX(N, H, samples.MRAO.g);
+        float G = GeometrySmith(N, V, L, samples.MRAO.g);
+        float3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);
+
+        float3 kS = F;
+        float3 kD = (1.0 - kS) * (1.0 - samples.MRAO.r);
+
+        float3 numerator = NDF * G * F;
+        float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.0001;
+        float3 specular = numerator / denominator;
+
+        float NdotL = max(dot(N, L), 0.0);
+        Lo += (kD * samples.albedo / PI + specular) * radiance * NdotL;
+    }
 
     float3 ambient = float3(0.03, 0.03, 0.03) * samples.albedo * samples.MRAO.b;
     float3 color = ambient + Lo;
