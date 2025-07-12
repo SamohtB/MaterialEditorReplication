@@ -119,7 +119,7 @@ SampledTextureMaps SampleTextures(PSINPUT input, float3x3 TBN, float3 V)
     float3 d_normal = float3(0, 0, 1); 
     float d_metallic = 0.0f;
     float d_smoothness = 0.0f;
-    float d_ao = 0.0f;
+    float d_ao = 1.0f;
     
     float2 parallaxUV = input.texcoord * tiling + offset;
     
@@ -144,7 +144,8 @@ SampledTextureMaps SampleTextures(PSINPUT input, float3x3 TBN, float3 V)
     // === Albedo Map ===
     if ((materialFlags & HasAlbedoMap) != 0)
     {
-        float3 albedoTex = Textures[diffuseHandleIndex].Sample(Samplers[0], parallaxUV).rgb;
+        float3 albedoTex = Textures[diffuseHandleIndex].
+        Sample(Samplers[0], parallaxUV).rgb;
         samples.albedo = pow(albedoTex, 2.2f) * baseColor.rgb;
     }
     else
@@ -175,7 +176,7 @@ SampledTextureMaps SampleTextures(PSINPUT input, float3x3 TBN, float3 V)
         samples.MRAO.r = d_metallic;
     }
     
-    // === Roughness ===
+    // === Smoothness ===
     if ((materialFlags & HasRoughnessMap) != 0 && smoothStr > 0.0f)
     {
         float smooth = 1 - Textures[roughHandleIndex].Sample(Samplers[0], parallaxUV).r;
