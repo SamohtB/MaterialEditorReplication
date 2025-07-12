@@ -16,11 +16,11 @@ class DeviceContext;
 class AMeshObject : public AGameObject
 {
 public:
-	AMeshObject(String name, String shader = ShaderTypes::UNLIT, String material = MaterialType::DEFAULT);
+	AMeshObject(String name, String material = MaterialType::DEFAULT);
 	virtual ~AMeshObject() = default;
 
 	virtual void Update(float deltaTime) override;
-	virtual void Draw(DeviceContext* context, String shader) override;
+	virtual void Draw(DeviceContext* context);
 
 	void SetMaterial(String material);
 	String GetMaterial() const;

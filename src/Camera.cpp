@@ -49,7 +49,3 @@ void Camera::SetLookAt(Vector3 lookat)
 
 	this->SetRotation(pitch, yaw, 0.0f);
 }
-
-void Camera::Draw(DeviceContext* context, String shader)
-{
-}

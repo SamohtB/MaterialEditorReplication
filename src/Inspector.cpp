@@ -96,48 +96,69 @@ void Inspector::DrawMaterialTab(AGameObject* object)
     MaterialDescription matDesc = GraphicsEngine::GetInstance()->GetMaterialManager()->GetMaterialDescription(currentMat);
     bool propertyChanged = false;
 
+    ImGui::Separator();
+
+    static const char* shaderOptions[] = {
+        ShaderType::UNLIT, ShaderType::LIT
+    };
+
+    int shaderIndex = 0;
+    for (int i = 0; i < IM_ARRAYSIZE(shaderOptions); ++i)
+    {
+        if (matDesc.shader == shaderOptions[i])
+        {
+            shaderIndex = i;
+            break;
+        }
+    }
+
+    if (ImGui::Combo("Shader", &shaderIndex, shaderOptions, IM_ARRAYSIZE(shaderOptions)))
+    {
+        matDesc.shader = shaderOptions[shaderIndex];
+        propertyChanged = true;
+    }
+
     ImGui::SeparatorText("Main Maps");
     if (DrawTextureField("Albedo", matDesc.albedoTex)) { propertyChanged = true; }
     ImGui::SameLine();
     if (ImGui::ColorEdit4("Color", &matDesc.albedoColor.x)) { propertyChanged = true; }
 
     if (DrawTextureField("Metallic", matDesc.metalTex)) { propertyChanged = true; }
-    ImGui::SameLine();
-    if (ImGui::SliderFloat("##MetalStrength", &matDesc.metalStrength, 0.0f, 1.0f)) { propertyChanged = true; }
 
-    if (DrawTextureField("Rough", matDesc.roughTex)) { propertyChanged = true; }
-    ImGui::SameLine();
-    if (ImGui::SliderFloat("##RoughStrength", &matDesc.roughStrength, 0.0f, 1.0f)) { propertyChanged = true; }
+    if (matDesc.metalTex != TextureType::DEFAULT)
+    {
+        ImGui::SameLine();
+        if (ImGui::SliderFloat("##MetalStrength", &matDesc.metalStrength, 0.0f, 1.0f)) { propertyChanged = true; }
+    }
+
+    if (DrawTextureField("Smoothness", matDesc.roughTex)) { propertyChanged = true; }
+    if (matDesc.roughTex != TextureType::DEFAULT)
+    {
+        ImGui::SameLine();
+        if (ImGui::SliderFloat("##SmoothStrength", &matDesc.roughStrength, 0.0f, 1.0f)) { propertyChanged = true; }
+    }
 
     if (DrawTextureField("Normal", matDesc.normalTex)) { propertyChanged = true; }
-    ImGui::SameLine();
-    if (ImGui::SliderFloat("##NormalStrength", &matDesc.normalStrength, 0.0f, 2.0f)) { propertyChanged = true; }
-
-    if (DrawTextureField("Height Map", matDesc.heightTex)) { propertyChanged = true; }
-    ImGui::SameLine();
-    if (ImGui::SliderFloat("##HeightStrength", &matDesc.heightStrength, 0.0f, 1.0f)) { propertyChanged = true; }
+    if (matDesc.normalTex != TextureType::DEFAULT)
+    {
+        ImGui::SameLine();
+        if (ImGui::SliderFloat("##NormalStrength", &matDesc.normalStrength, 0.0f, 2.0f)) { propertyChanged = true; }
+    }
 
     if (DrawTextureField("Occlusion", matDesc.aoTex)) { propertyChanged = true; }
-    ImGui::SameLine();
-    if (ImGui::SliderFloat("##AOStrength", &matDesc.aoStrength, 0.0f, 1.0f)) { propertyChanged = true; }
-
-    if (DrawTextureField("Emissive", matDesc.emissiveTex)) { propertyChanged = true; }
-    ImGui::SameLine();
-    if (ImGui::SliderFloat("##EmmisiveStrength", &matDesc.emissiveStrength, 0.0f, 10.0f)) { propertyChanged = true; }
-
-    ImGui::Columns(2, nullptr, false); 
-    ImGui::SetColumnWidth(0, 100); 
+    if (matDesc.aoTex != TextureType::DEFAULT)
+    {
+        ImGui::SameLine();
+        if (ImGui::SliderFloat("##AOStrength", &matDesc.aoStrength, 0.0f, 1.0f)) { propertyChanged = true; }
+    }
 
     ImGui::Text("Tiling");
-    ImGui::NextColumn();
+    ImGui::SameLine();
     if (ImGui::DragFloat2("##Tiling", &matDesc.tiling.x, 0.01f, 0.01f, 100.0f)) { propertyChanged = true; }
 
-    ImGui::NextColumn();
     ImGui::Text("Offset");
-    ImGui::NextColumn();
+    ImGui::SameLine();
     if (ImGui::DragFloat2("##Offset", &matDesc.offset.x, 0.01f, -10.0f, 10.0f)) { propertyChanged = true; }
-
-    ImGui::Columns(1);
 
     if (propertyChanged)
     {

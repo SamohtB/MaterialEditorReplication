@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "ShaderTypes.h"
 #include "TextureTypes.h"
 #include "Math.h"
 
@@ -52,7 +53,7 @@ struct alignas(16) MaterialConstants
 
     float normalStr;
     float metalStr;
-    float roughStr;
+    float smoothStr;
     float aoStr;
 
     float emmissiveStr;
@@ -66,6 +67,8 @@ struct alignas(16) MaterialConstants
 
 struct MaterialDescription
 {
+    std::string shader;
+
     std::string albedoTex;
     std::string normalTex;
     std::string metalTex;
@@ -87,6 +90,7 @@ struct MaterialDescription
     Vector2 offset;
 
     MaterialDescription(
+		const std::string& shader = ShaderType::UNLIT,
         const std::string& albedoTex = "",
         const Vector4& albedoColor = Vector4(1, 1, 1, 1),
         const std::string& normalTex = "", float normalStrength = 1.0f,
@@ -97,7 +101,7 @@ struct MaterialDescription
         const std::string& heightTex = "", float heightStrength = 0.0f,
         const Vector2& tiling = Vector2(1.0f, 1.0f),
         const Vector2& offset = Vector2(0.0f, 0.0f))
-        : albedoTex(albedoTex), albedoColor(albedoColor),
+        : shader(shader), albedoTex(albedoTex), albedoColor(albedoColor),
         normalTex(normalTex), normalStrength(normalStrength),
         metalTex(metalTex), metalStrength(metalStrength),
         roughTex(roughTex), roughStrength(roughStrength),

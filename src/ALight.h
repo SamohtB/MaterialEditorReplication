@@ -19,6 +19,5 @@ private:
 
 	// Inherited via AGameObject
 	void Update(float deltaTime) override;
-	void Draw(DeviceContext* context, String shader) override;
 };
 

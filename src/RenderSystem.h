@@ -32,9 +32,6 @@ public:
 	RenderDevice* GetRenderDevice();
 	DeviceContext* GetDeviceContext();
 
-	String GetActiveShader() const;
-	void SetActiveShader(const String& shaderName);
-
 	void SetClearColor(const std::vector<float>& color);
 
 private:
@@ -50,5 +47,4 @@ private:
 	CD3DX12_RECT m_scissorRect;
 
 	std::vector<float> m_clearColor = { 0.0f, 0.2f, 0.4f, 1.0f };
-	String m_activeShader = ShaderTypes::UNLIT;
 };

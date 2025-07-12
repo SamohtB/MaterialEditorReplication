@@ -28,7 +28,7 @@ cbuffer MaterialConstants : register(b2)
 
     float normalStr;
     float metalStr;
-    float roughStr;
+    float smoothStr;
     float aoStr;
 
     float emmissiveStr;
@@ -118,7 +118,7 @@ SampledTextureMaps SampleTextures(PSINPUT input, float3x3 TBN, float3 V)
     // === Default Values ===
     float3 d_normal = float3(0, 0, 1); 
     float d_metallic = 0.0f;
-    float d_roughness = 0.0f;
+    float d_smoothness = 0.0f;
     float d_ao = 0.0f;
     
     float2 parallaxUV = input.texcoord * tiling + offset;
@@ -176,14 +176,14 @@ SampledTextureMaps SampleTextures(PSINPUT input, float3x3 TBN, float3 V)
     }
     
     // === Roughness ===
-    if ((materialFlags & HasRoughnessMap) != 0 && roughStr > 0.0f)
+    if ((materialFlags & HasRoughnessMap) != 0 && smoothStr > 0.0f)
     {
-        float rough = Textures[roughHandleIndex].Sample(Samplers[0], parallaxUV).r;
-        samples.MRAO.g = lerp(d_roughness, rough, roughStr);
+        float smooth = 1 - Textures[roughHandleIndex].Sample(Samplers[0], parallaxUV).r;
+        samples.MRAO.g = lerp(d_smoothness, smooth, smoothStr);
     }
     else
     {
-        samples.MRAO.g = d_roughness;
+        samples.MRAO.g = d_smoothness;
     }
     
     // === AO Map ===

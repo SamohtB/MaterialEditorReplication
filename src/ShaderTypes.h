@@ -2,7 +2,7 @@
 #include <string>
 #include <unordered_set>
 
-class ShaderTypes
+class ShaderType
 {
 public:
 	using String = std::string;

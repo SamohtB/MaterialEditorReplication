@@ -24,7 +24,7 @@ public:
     std::vector<AGameObject*> GetAllObjects();
     int ActiveObjects();
     void UpdateAll(float deltaTime);
-    void RenderAll(DeviceContext* context, String shader);
+    void RenderAll(DeviceContext* context);
 
     void AddGameObject(GameObjectPtr gameObject, bool isRendered = true);
     void DeleteObject(AGameObject* game_object);

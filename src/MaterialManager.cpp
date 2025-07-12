@@ -13,42 +13,45 @@ void MaterialManager::LoadInitialMaterials()
 {
     CreateBlankMaterial(MaterialType::DEFAULT);
 
-    /* MaterialDesc Sequence: Albedo, Normal, Metal, Rough, AO, Emmissive, Height, Tiling, Offset */
+    /* MaterialDesc Sequence: Shader, Albedo, Normal, Metal, Rough, AO, Emmissive, Height, Tiling, Offset */
     CreateMaterial(MaterialType::ROCK,
         {
+        ShaderType::LIT,
         TextureType::ROCK_COLOR,    Vector4(1, 1, 1, 1),
         TextureType::ROCK_NORMAL,   1.0f,
         TextureType::DEFAULT,       0.0f,
         TextureType::ROCK_ROUGH,    1.0f,
         TextureType::ROCK_AO,       1.0f,
         TextureType::DEFAULT,       0.0f,
-        TextureType::ROCK_HEIGHT,   0.7f,
+        TextureType::DEFAULT,   0.7f,
 		Vector2(1.0f, 1.0f),
         Vector2(0.0f, 0.0f)
         });
 
     CreateMaterial(MaterialType::METAL_PLATE,
         {
+        ShaderType::LIT,
         TextureType::METAL_COLOR,   Vector4(1, 1, 1, 1),
         TextureType::METAL_NORMAL,  1.0f,
         TextureType::METAL_METAL,   0.8f,
         TextureType::METAL_ROUGH,   1.0f,
         TextureType::DEFAULT,       0.0f,
         TextureType::DEFAULT,       0.0f,
-        TextureType::METAL_HEIGHT,  1.0f,
+        TextureType::DEFAULT,  1.0f,
         Vector2(1.0f, 1.0f),
         Vector2(0.0f, 0.0f)
         });
 
     CreateMaterial(MaterialType::BRICKS,
         {
+        ShaderType::LIT,
         TextureType::BRICKS_COLOR,  Vector4(1, 1, 1, 1),
         TextureType::BRICKS_NORMAL, 1.0f,
         TextureType::DEFAULT,       0.0f,
         TextureType::BRICKS_ROUGH,  1.0f,
         TextureType::BRICKS_AO,     1.0f,
         TextureType::DEFAULT,       0.0f,
-        TextureType::BRICKS_HEIGHT, 1.0f,
+        TextureType::DEFAULT,       1.0f,
         Vector2(1.0f, 1.0f),
         Vector2(0.0f, 0.0f)
         });
@@ -57,6 +60,7 @@ void MaterialManager::LoadInitialMaterials()
 void MaterialManager::CreateBlankMaterial(const String& materialName)
 {
     CreateMaterial(materialName, {
+		ShaderType::UNLIT,
         TextureType::DEFAULT, Vector4(1, 1, 1, 1),
         TextureType::DEFAULT, 0.0f,
         TextureType::DEFAULT, 0.0f,
@@ -115,6 +119,16 @@ void MaterialManager::UploadMaterialConstants(UINT currentFrameIndex)
 	}
 }
 
+String MaterialManager::GetMaterialShader(const String& materialName, UINT currentFrameIndex)
+{
+    if (m_materialMap.count(materialName) == 0)
+    {
+        Debug::LogError("Material '" + materialName + "' not found.");
+        return ShaderType::UNLIT; // Default shader
+    }
+    return m_materialMap[materialName]->GetDescription().shader;
+}
+
 D3D12_GPU_VIRTUAL_ADDRESS MaterialManager::GetMaterialHandle(const String& materialName, UINT currentFrameIndex)
 {
     return this->m_materialMap[materialName]->GetCBAddress(currentFrameIndex);
@@ -142,7 +156,7 @@ MaterialConstants MaterialManager::CreateMaterialConstants(const MaterialDescrip
 
     constants.normalStr = desc.normalStrength;
     constants.metalStr = desc.metalStrength;
-    constants.roughStr = desc.roughStrength;
+    constants.smoothStr = desc.roughStrength;
     constants.aoStr = desc.aoStrength;
     constants.emmissiveStr = desc.emissiveStrength;
     constants.heightStr = desc.heightStrength;

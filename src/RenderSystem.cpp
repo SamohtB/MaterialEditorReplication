@@ -121,28 +121,6 @@ DeviceContext* RenderSystem::GetDeviceContext()
 	return this->m_deviceContext.get();
 }
 
-String RenderSystem::GetActiveShader() const
-{
-	return this->m_activeShader;
-}
-
-void RenderSystem::SetActiveShader(const String& shaderName)
-{
-	if (this->m_activeShader == shaderName)
-	{
-		Debug::Log(shaderName + "shader already active!");
-		return;
-	}
-
-	if (!ShaderTypes::IsValid(shaderName)) 
-	{
-		Debug::Log("Invalid shader: " + shaderName);
-		return;
-	}
-
-	this->m_activeShader = shaderName;
-}
-
 void RenderSystem::SetClearColor(const std::vector<float>& color)
 {
 	this->m_clearColor = color;

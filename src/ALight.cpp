@@ -8,7 +8,3 @@ ALight::ALight(String name, Vector3 color, float intensity, String type)
 void ALight::Update(float deltaTime)
 {
 }
-
-void ALight::Draw(DeviceContext* context, String shader)
-{
-}

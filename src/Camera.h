@@ -34,7 +34,4 @@ protected:
 	UINT m_viewportHeight = 0;
 	float m_oNearZ = -4.0f;
 	float m_oFarZ = 4.0f;
-
-private:
-	void Draw(DeviceContext* context, String shader) override;
 };

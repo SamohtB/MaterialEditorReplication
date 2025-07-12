@@ -14,7 +14,7 @@
 
 #include "Debug.h"
 
-AMeshObject::AMeshObject(String name, String shader, String material) : AGameObject(name), m_material(material) 
+AMeshObject::AMeshObject(String name, String material) : AGameObject(name), m_material(material) 
 {
 	m_gpuAddresses.resize(FRAME_COUNT);
 }
@@ -23,10 +23,11 @@ void AMeshObject::Update(float deltaTime)
 {
 }
 
-void AMeshObject::Draw(DeviceContext* context, String shader)
+void AMeshObject::Draw(DeviceContext* context)
 {
     auto renderSystem = GraphicsEngine::GetInstance()->GetRenderSystem();
     auto frameIndex = renderSystem->GetCurrentFrameIndex();
+    auto shader = GraphicsEngine::GetInstance()->GetMaterialManager()->GetMaterialShader(this->m_material, frameIndex);
 
     context->SetPSO(renderSystem->GetPipelineState(shader));
     context->SetObjectConstants(this->m_gpuAddresses[frameIndex]);

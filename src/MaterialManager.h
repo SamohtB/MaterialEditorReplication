@@ -20,7 +20,7 @@ public:
     void UpdateMaterialDescription(const String& materialName, MaterialDescription materialDesc);
     void UploadMaterialConstants(UINT currentFrameIndex);
 
-    
+    String GetMaterialShader(const String& materialName, UINT currentFrameIndex);
     D3D12_GPU_VIRTUAL_ADDRESS GetMaterialHandle(const String& materialName, UINT currentFrameIndex);
     MaterialDescription GetMaterialDescription(const String& materialName);
 

@@ -13,7 +13,6 @@ public:
     virtual ~AGameObject() = default;
 
     virtual void Update(float deltaTime) = 0;
-    virtual void Draw(DeviceContext* context, String shader) = 0;
 
     bool IsActive() const;
     void SetActive(bool value);
