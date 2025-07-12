@@ -39,9 +39,10 @@ void Toolbar::GameObjects()
     /* Primitive Spawners */
     if (ImGui::BeginMenu("Primitives"))
     {
-        if (ImGui::MenuItem("Cube")) { GameObjectSpawner::CreatePrimitive(ObjectType::PRIMITVE_CUBE); }
-        if (ImGui::MenuItem("Plane")) { GameObjectSpawner::CreatePrimitive(ObjectType::PRIMITVE_PLANE); }
-        if (ImGui::MenuItem("Sphere")) { GameObjectSpawner::CreatePrimitive(ObjectType::PRIMITVE_SPHERE); }
+        if (ImGui::MenuItem("Cube")) { GameObjectSpawner::CreatePrimitive(ObjectType::PRIMITIVE_CUBE); }
+        if (ImGui::MenuItem("Plane")) { GameObjectSpawner::CreatePrimitive(ObjectType::PRIMITIVE_PLANE); }
+        if (ImGui::MenuItem("Sphere")) { GameObjectSpawner::CreatePrimitive(ObjectType::PRIMITIVE_SPHERE); }
+        if (ImGui::MenuItem("Cylinder")) { GameObjectSpawner::CreatePrimitive(ObjectType::PRIMITIVE_CYLINDER); }
         ImGui::EndMenu();
     }
 }

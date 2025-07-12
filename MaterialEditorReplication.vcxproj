@@ -133,6 +133,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Cylinder.cpp" />
+    <ClCompile Include="src\Capsule.cpp" />
     <ClCompile Include="src\LightManager.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
     <ClCompile Include="src\ALight.cpp" />
@@ -188,6 +190,8 @@
     <ClCompile Include="src\Win32App.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Cylinder.h" />
+    <ClInclude Include="src\Capsule.h" />
     <ClInclude Include="src\LightManager.h" />
     <ClInclude Include="src\PointLight.h" />
     <ClInclude Include="src\ALight.h" />

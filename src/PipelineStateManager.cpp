@@ -108,6 +108,12 @@ ComPtr<ID3D12PipelineState> PipelineStateManager::CreatePipelineState(ID3D12Devi
 		{ "TANGENT",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
     };
 
+    D3D12_RASTERIZER_DESC rasterDesc = {};
+    rasterDesc.FillMode = D3D12_FILL_MODE_SOLID;
+    rasterDesc.CullMode = D3D12_CULL_MODE_BACK;
+    rasterDesc.FrontCounterClockwise = TRUE;
+    rasterDesc.DepthClipEnable = TRUE;
+
     D3D12_DEPTH_STENCIL_DESC depthStencilDesc = {};
     depthStencilDesc.DepthEnable = TRUE;
     depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
@@ -128,6 +134,7 @@ ComPtr<ID3D12PipelineState> PipelineStateManager::CreatePipelineState(ID3D12Devi
     psoDesc.NumRenderTargets = 1;
     psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
     psoDesc.SampleDesc.Count = 1;
+	psoDesc.RasterizerState = rasterDesc;
 
     ComPtr<ID3D12PipelineState> pipelineState;
     auto hr = device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&pipelineState));

@@ -3,6 +3,7 @@
 #include "Cube.h"
 #include "Plane.h"
 #include "Sphere.h"
+#include "Cylinder.h"
 #include "Camera.h"
 
 #include "GameObjectManager.h"
@@ -13,9 +14,10 @@
 
 enum ObjectType
 {
-	PRIMITVE_CUBE = 0,
-	PRIMITVE_PLANE,
-	PRIMITVE_SPHERE,
+	PRIMITIVE_CUBE = 0,
+	PRIMITIVE_PLANE,
+	PRIMITIVE_SPHERE,
+    PRIMITIVE_CYLINDER
 };
 
 class GameObjectSpawner
@@ -36,20 +38,25 @@ public:
 
         switch (type)
         {
-        case PRIMITVE_CUBE:
+        case PRIMITIVE_CUBE:
             name = NameRegistry::GetInstance()->GenerateUniqueName("Cube");
             obj = std::make_shared<Cube>(name);
             break;
 
-        case PRIMITVE_PLANE:
+        case PRIMITIVE_PLANE:
             name = NameRegistry::GetInstance()->GenerateUniqueName("Plane");
             obj = std::make_shared<Plane>(name);
             break;
 
-        case PRIMITVE_SPHERE:
+        case PRIMITIVE_SPHERE:
             name = NameRegistry::GetInstance()->GenerateUniqueName("Sphere");
             obj = std::make_shared<Sphere>(name);
             break;
+
+		case PRIMITIVE_CYLINDER:
+			name = NameRegistry::GetInstance()->GenerateUniqueName("Cylinder");
+			obj = std::make_shared<Cylinder>(name);
+			break;
 
         default:
             return;

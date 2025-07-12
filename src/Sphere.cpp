@@ -5,8 +5,8 @@ Sphere::Sphere(String name) : AMeshObject(name)
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
 
-    const uint32_t verticalSegments = TESSELLATION;
-    const uint32_t horizontalSegments = TESSELLATION * 2;
+    const uint32_t verticalSegments = m_tessellation;
+    const uint32_t horizontalSegments = m_tessellation * 2;
 
     // Create rings of vertices at progressively higher latitudes.
     for (uint32_t i = 0; i <= verticalSegments; i++)
@@ -32,7 +32,7 @@ Sphere::Sphere(String name) : AMeshObject(name)
 
             Vector3 normal(dx, dy, dz);
             Vector2 texcoord(u, v);
-            Vector3 position = normal * RADIUS;
+            Vector3 position = normal * m_radius;
 
             vertices.push_back(Vertex{
                 position,
