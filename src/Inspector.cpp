@@ -73,7 +73,8 @@ void Inspector::DrawMaterialTab(AGameObject* object)
     if (!meshObject) return;
 
     static const char* materialOptions[] = {
-        MaterialType::DEFAULT, MaterialType::ROCK, MaterialType::METAL_PLATE, MaterialType::BRICKS
+        MaterialType::DEFAULT, MaterialType::ROCK, MaterialType::METAL_PLATE, MaterialType::BRICKS,
+		MaterialType::BLANK_1, MaterialType::BLANK_2, MaterialType::BLANK_3
     };
 
     std::string currentMat = meshObject->GetMaterial();

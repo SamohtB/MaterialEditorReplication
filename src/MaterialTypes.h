@@ -11,6 +11,9 @@ namespace MaterialType
     inline constexpr const char* ROCK = "ROCK";
     inline constexpr const char* METAL_PLATE = "METAL_PLATE";
     inline constexpr const char* BRICKS = "BRICKS";
+    inline constexpr const char* BLANK_1 = "BLANK_1";
+    inline constexpr const char* BLANK_2 = "BLANK_2";
+    inline constexpr const char* BLANK_3 = "BLANK_3";
 };
 
 enum MaterialMapType : int
