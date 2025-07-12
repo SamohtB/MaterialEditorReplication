@@ -70,12 +70,12 @@ Cube::Cube(String name) : AMeshObject(name)
     {
         int offset = i * 4;
         indices.push_back(offset + 0);
-        indices.push_back(offset + 1);
         indices.push_back(offset + 2);
+        indices.push_back(offset + 1);
 
         indices.push_back(offset + 2);
-        indices.push_back(offset + 1);
         indices.push_back(offset + 3);
+        indices.push_back(offset + 1);
     }
 
     // Calculate tangents
