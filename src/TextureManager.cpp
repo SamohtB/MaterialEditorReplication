@@ -22,7 +22,6 @@ void TextureManager::LoadInitialTextures()
     LoadTexture(TextureType::METAL_NORMAL, L"Assets/Textures/metal_n.png");
     LoadTexture(TextureType::METAL_ROUGH, L"Assets/Textures/metal_r.png");
     LoadTexture(TextureType::METAL_METAL, L"Assets/Textures/metal_m.png");
-    LoadTexture(TextureType::METAL_HEIGHT, L"Assets/Textures/metal_h.png");
 
     LoadTexture(TextureType::BRICKS_COLOR, L"Assets/Textures/bricks_d.png");
     LoadTexture(TextureType::BRICKS_NORMAL, L"Assets/Textures/bricks_n.png");

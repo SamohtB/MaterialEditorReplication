@@ -117,6 +117,8 @@ EngineGUIManager::EngineGUIManager(HWND hwnd)
 	ImGui_ImplDX12_Init(&init_info);
 	ImGui_ImplWin32_Init(hwnd);
 
+
+	ImGui::GetIO().FontGlobalScale = 1.15f;
 	PopulateGUI();
 }
 

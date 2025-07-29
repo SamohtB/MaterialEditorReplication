@@ -13,7 +13,7 @@ int main()
 #endif
 	try
 	{
-		GameWindow game = GameWindow(1024, 768);
+		GameWindow game = GameWindow(1280, 720);
 		Win32App app = Win32App(&game, L"DirectX Application");
 
 		while (app.IsRun()) 
